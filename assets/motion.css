@@ -1,0 +1,123 @@
+/* ===== BACKGROUND MOTION EFFECTS ===== */
+
+/* Floating gradient orbs */
+.orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+
+.orb-1 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #00f0ff 0%, transparent 70%);
+  top: -10%;
+  left: -10%;
+  animation: orb-drift-1 18s ease-in-out infinite;
+}
+
+.orb-2 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, #8b5cf6 0%, transparent 70%);
+  bottom: -15%;
+  right: -10%;
+  animation: orb-drift-2 22s ease-in-out infinite;
+}
+
+.orb-3 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, #ec4899 0%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: orb-drift-3 20s ease-in-out infinite;
+}
+
+@keyframes orb-drift-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(120px, 80px) scale(1.1); }
+  50% { transform: translate(60px, 160px) scale(0.95); }
+  75% { transform: translate(-40px, 100px) scale(1.05); }
+}
+
+@keyframes orb-drift-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(-100px, -60px) scale(1.08); }
+  50% { transform: translate(-180px, -120px) scale(0.92); }
+  75% { transform: translate(-60px, -180px) scale(1.04); }
+}
+
+@keyframes orb-drift-3 {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  33% { transform: translate(-30%, -40%) scale(1.15); }
+  66% { transform: translate(-60%, -55%) scale(0.9); }
+}
+
+/* Grid background that moves slowly */
+.motion-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 80px 80px;
+  animation: grid-shift 30s linear infinite;
+}
+
+@keyframes grid-shift {
+  0% { background-position: 0 0; }
+  100% { background-position: 80px 80px; }
+}
+
+/* Glowing scan line */
+.scan-line {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.4), transparent);
+  z-index: 1;
+  pointer-events: none;
+  animation: scan-down 8s ease-in-out infinite;
+}
+
+@keyframes scan-down {
+  0% { top: -2px; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* Noise overlay for texture */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
+/* Vignette */
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.6) 100%);
+}
+
+/* Ensure content sits above effects */
+#root {
+  position: relative;
+  z-index: 2;
+}
