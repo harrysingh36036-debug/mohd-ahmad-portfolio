@@ -18,7 +18,9 @@
   top: -8%;
   left: -8%;
   opacity: 0.25;
-  animation: orb-drift-1 20s ease-in-out infinite;
+  animation:
+    orb-drift-1 20s ease-in-out infinite,
+    orb-breathe-1 6s ease-in-out infinite;
 }
 
 .orb-2 {
@@ -28,7 +30,9 @@
   bottom: -10%;
   right: -5%;
   opacity: 0.2;
-  animation: orb-drift-2 24s ease-in-out infinite;
+  animation:
+    orb-drift-2 24s ease-in-out infinite,
+    orb-breathe-2 7s ease-in-out infinite 1s;
 }
 
 .orb-3 {
@@ -38,7 +42,9 @@
   top: 60%;
   left: 40%;
   opacity: 0.15;
-  animation: orb-drift-3 22s ease-in-out infinite;
+  animation:
+    orb-drift-3 22s ease-in-out infinite,
+    orb-breathe-3 8s ease-in-out infinite 2s;
 }
 
 @keyframes orb-drift-1 {
@@ -59,6 +65,22 @@
   0%, 100% { transform: translate(-50%, -50%) scale(1); }
   33% { transform: translate(-30%, -40%) scale(1.15); }
   66% { transform: translate(-60%, -55%) scale(0.9); }
+}
+
+/* === Breathing Pulse Effects === */
+@keyframes orb-breathe-1 {
+  0%, 100% { opacity: 0.25; filter: blur(80px); }
+  50% { opacity: 0.4; filter: blur(70px); }
+}
+
+@keyframes orb-breathe-2 {
+  0%, 100% { opacity: 0.2; filter: blur(80px); }
+  50% { opacity: 0.35; filter: blur(65px); }
+}
+
+@keyframes orb-breathe-3 {
+  0%, 100% { opacity: 0.15; filter: blur(80px); }
+  50% { opacity: 0.3; filter: blur(60px); }
 }
 
 /* Grid background that moves slowly */
