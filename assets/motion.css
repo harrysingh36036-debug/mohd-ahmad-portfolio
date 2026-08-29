@@ -12,31 +12,33 @@
 }
 
 .orb-1 {
-  width: 500px;
-  height: 500px;
+  width: 400px;
+  height: 400px;
   background: radial-gradient(circle, #00f0ff 0%, transparent 70%);
-  top: -10%;
-  left: -10%;
-  animation: orb-drift-1 18s ease-in-out infinite;
+  top: -8%;
+  left: -8%;
+  opacity: 0.25;
+  animation: orb-drift-1 20s ease-in-out infinite;
 }
 
 .orb-2 {
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, #8b5cf6 0%, transparent 70%);
-  bottom: -15%;
-  right: -10%;
-  animation: orb-drift-2 22s ease-in-out infinite;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, #b0e8ff 0%, transparent 70%);
+  bottom: -10%;
+  right: -5%;
+  opacity: 0.2;
+  animation: orb-drift-2 24s ease-in-out infinite;
 }
 
 .orb-3 {
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, #ec4899 0%, transparent 70%);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation: orb-drift-3 20s ease-in-out infinite;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, #00c8d9 0%, transparent 70%);
+  top: 60%;
+  left: 40%;
+  opacity: 0.15;
+  animation: orb-drift-3 22s ease-in-out infinite;
 }
 
 @keyframes orb-drift-1 {
@@ -82,8 +84,8 @@
   position: fixed;
   left: 0;
   right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.4), transparent);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.25), transparent);
   z-index: 1;
   pointer-events: none;
   animation: scan-down 8s ease-in-out infinite;

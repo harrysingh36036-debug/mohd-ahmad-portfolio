@@ -12,8 +12,8 @@
   const ctx = canvas.getContext('2d');
   let w, h;
   let particles = [];
-  const PARTICLE_COUNT = 80;
-  const CONNECTION_DIST = 150;
+  const PARTICLE_COUNT = 40;
+  const CONNECTION_DIST = 120;
   const MOUSE_RADIUS = 200;
 
   let mouse = { x: -1000, y: -1000 };
@@ -34,12 +34,13 @@
       this.vy = (Math.random() - 0.5) * 0.6;
       this.radius = Math.random() * 2 + 1;
       this.opacity = Math.random() * 0.5 + 0.2;
-      // Cyan, purple, or pink
+      // Cyan + White tech theme
       const colors = [
-        '0, 240, 255',
-        '139, 92, 246',
-        '236, 72, 153',
-        '255, 255, 255',
+        '0, 240, 255',  // cyan
+        '0, 220, 230',  // teal
+        '200, 240, 255', // light cyan
+        '255, 255, 255', // white
+        '180, 230, 255', // ice blue
       ];
       this.color = colors[Math.floor(Math.random() * colors.length)];
     }
@@ -95,7 +96,7 @@
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
           ctx.lineTo(particles[j].x, particles[j].y);
-          ctx.strokeStyle = `rgba(0, 240, 255, ${opacity})`;
+          ctx.strokeStyle = `rgba(0, 220, 255, ${opacity})`;
           ctx.lineWidth = 0.5;
           ctx.stroke();
         }
