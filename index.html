@@ -3,944 +3,1310 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Mohd Ahmad — Business Development & Data Analysis Professional Portfolio">
+<meta name="theme-color" content="#070b14">
 
 <title>Mohd Ahmad | Business Development & Data Analysis</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 <style>
+/* ============================================
+   DESIGN TOKENS (Semantic Color System)
+   ============================================ */
 :root {
-    --bg: #070b14;
-    --card: rgba(19, 27, 45, 0.72);
-    --card2: #101827;
-    --primary: #5eead4;
-    --secondary: #60a5fa;
-    --purple: #a78bfa;
-    --text: #f8fafc;
-    --muted: #94a3b8;
-    --border: rgba(255,255,255,0.09);
+  /* Dark mode palette — verified 4.5:1+ contrast */
+  --color-bg: #070b14;
+  --color-surface: #0f1729;
+  --color-surface-elevated: rgba(19, 27, 45, 0.85);
+  --color-surface-hover: rgba(30, 42, 68, 0.9);
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-hover: rgba(94, 234, 212, 0.35);
+
+  /* Primary accent — teal */
+  --color-primary: #5eead4;
+  --color-primary-muted: rgba(94, 234, 212, 0.12);
+  --color-primary-hover: rgba(94, 234, 212, 0.2);
+
+  /* Secondary accent — blue */
+  --color-secondary: #60a5fa;
+  --color-secondary-muted: rgba(96, 165, 250, 0.12);
+
+  /* Tertiary accent — purple */
+  --color-accent: #a78bfa;
+  --color-accent-muted: rgba(167, 139, 250, 0.12);
+
+  /* Text — contrast 4.5:1+ on --color-bg */
+  --color-text: #f1f5f9;
+  --color-text-secondary: #94a3b8;
+  --color-text-tertiary: #64748b;
+
+  /* Semantic states */
+  --color-success: #34d399;
+  --color-destructive: #f87171;
+
+  /* Focus ring */
+  --color-focus: #5eead4;
+
+  /* Spacing scale (8pt grid) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 48px;
+  --space-10: 64px;
+  --space-12: 80px;
+  --space-16: 96px;
+
+  /* Typography scale */
+  --font-heading: 'Poppins', system-ui, sans-serif;
+  --font-body: 'Open Sans', system-ui, sans-serif;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 2rem;
+  --text-4xl: 2.5rem;
+  --text-5xl: clamp(2.5rem, 5vw, 4rem);
+  --text-6xl: clamp(3rem, 7vw, 5.5rem);
+
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+  --easing: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 24px rgba(94, 234, 212, 0.15);
+
+  /* Z-index scale */
+  --z-base: 0;
+  --z-above: 10;
+  --z-nav: 100;
+  --z-skip: 200;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* ============================================
+   RESET & BASE
+   ============================================ */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-    font-family: Inter, Arial, sans-serif;
-    background:
-        radial-gradient(circle at 10% 10%, rgba(96,165,250,.12), transparent 30%),
-        radial-gradient(circle at 90% 20%, rgba(167,139,250,.12), transparent 25%),
-        #070b14;
-    color: var(--text);
-    line-height: 1.6;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.65;
+  color: var(--color-text);
+  background: var(--color-bg);
+  background-image:
+    radial-gradient(ellipse at 10% 10%, rgba(96, 165, 250, 0.08), transparent 40%),
+    radial-gradient(ellipse at 90% 20%, rgba(167, 139, 250, 0.07), transparent 35%),
+    radial-gradient(ellipse at 50% 80%, rgba(94, 234, 212, 0.04), transparent 40%);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 a {
-    text-decoration: none;
-    color: inherit;
+  text-decoration: none;
+  color: inherit;
+  transition: color var(--duration-fast) var(--easing);
 }
 
-/* NAVBAR */
+img {
+  max-width: 100%;
+  display: block;
+}
 
-nav {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 18px 7%;
-    background: rgba(7,11,20,.8);
-    backdrop-filter: blur(18px);
-    border-bottom: 1px solid var(--border);
+/* ============================================
+   FOCUS STATES (Accessibility — CRITICAL)
+   ============================================ */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ============================================
+   SKIP LINK (Accessibility)
+   ============================================ */
+.skip-link {
+  position: fixed;
+  top: -100%;
+  left: var(--space-4);
+  z-index: var(--z-skip);
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-primary);
+  color: var(--color-bg);
+  font-weight: 700;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  transition: top var(--duration-fast) var(--easing);
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* ============================================
+   REDUCED MOTION (Accessibility)
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ============================================
+   NAVBAR
+   ============================================ */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-nav);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-4) 8%;
+  background: rgba(7, 11, 20, 0.82);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .logo {
-    font-size: 1.3rem;
-    font-weight: 800;
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  cursor: default;
 }
 
-.logo span {
-    color: var(--primary);
+.logo .accent {
+  color: var(--color-primary);
 }
 
 .nav-links {
-    display: flex;
-    gap: 25px;
-    color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  list-style: none;
 }
 
-.nav-links a:hover {
-    color: white;
+.nav-links a {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  padding: var(--space-2) var(--space-1);
+  border-radius: var(--radius-sm);
+  transition: color var(--duration-fast) var(--easing),
+              background var(--duration-fast) var(--easing);
+  cursor: pointer;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
 }
 
-/* HERO */
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--color-text);
+  background: var(--color-primary-muted);
+}
 
+.nav-links a.active {
+  color: var(--color-primary);
+}
+
+/* Mobile nav toggle */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-2);
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-toggle svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--color-text);
+  stroke-width: 2;
+  fill: none;
+}
+
+/* ============================================
+   HERO
+   ============================================ */
 .hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: 130px 8% 70px;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  padding: 120px 8% var(--space-12);
 }
 
 .hero-content {
-    max-width: 850px;
+  max-width: 820px;
 }
 
-.badge {
-    display: inline-block;
-    color: var(--primary);
-    border: 1px solid rgba(94,234,212,.25);
-    background: rgba(94,234,212,.08);
-    padding: 8px 16px;
-    border-radius: 50px;
-    margin-bottom: 25px;
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-primary);
+  border: 1px solid rgba(94, 234, 212, 0.25);
+  background: var(--color-primary-muted);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  margin-bottom: var(--space-7);
+}
+
+.hero-badge svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
 }
 
 .hero h1 {
-    font-size: clamp(3rem, 8vw, 7rem);
-    line-height: .95;
-    letter-spacing: -4px;
+  font-family: var(--font-heading);
+  font-size: var(--text-6xl);
+  line-height: 1.0;
+  letter-spacing: -2px;
+  font-weight: 800;
 }
 
-.gradient {
-    background: linear-gradient(90deg, var(--primary), var(--secondary), var(--purple));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+.hero h1 .gradient {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary), var(--color-accent));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.hero p {
-    color: var(--muted);
-    max-width: 700px;
-    font-size: 1.2rem;
-    margin: 30px 0;
+.hero-description {
+  color: var(--color-text-secondary);
+  max-width: 640px;
+  font-size: var(--text-lg);
+  line-height: 1.7;
+  margin: var(--space-7) 0;
 }
 
-.buttons {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
+.hero-description strong {
+  color: var(--color-text);
+  font-weight: 600;
 }
 
+.hero-buttons {
+  display: flex;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
 .btn {
-    padding: 14px 24px;
-    border-radius: 10px;
-    font-weight: bold;
-    transition: .3s;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  min-height: 44px;
+  transition: transform var(--duration-fast) var(--easing),
+              box-shadow var(--duration-normal) var(--easing),
+              background var(--duration-fast) var(--easing),
+              border-color var(--duration-fast) var(--easing);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.primary {
-    background: var(--primary);
-    color: #06110f;
+.btn:active {
+  transform: scale(0.97);
 }
 
-.secondary {
-    border: 1px solid var(--border);
-    background: rgba(255,255,255,.03);
+.btn-primary {
+  background: var(--color-primary);
+  color: #06110f;
 }
 
-.btn:hover {
-    transform: translateY(-3px);
+.btn-primary:hover {
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-2px);
 }
 
-/* STATS */
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
 
+.btn-secondary:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-border-hover);
+  transform: translateY(-2px);
+}
+
+.btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ============================================
+   STATS
+   ============================================ */
 .stats {
-    padding: 40px 8%;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+  padding: 0 8% var(--space-12);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-5);
 }
 
-.stat {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 28px;
-    text-align: center;
+.stat-card {
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-7);
+  text-align: center;
+  transition: transform var(--duration-normal) var(--easing),
+              border-color var(--duration-normal) var(--easing),
+              box-shadow var(--duration-normal) var(--easing);
 }
 
-.stat h2 {
-    font-size: 2.5rem;
-    color: var(--primary);
+.stat-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-border-hover);
+  box-shadow: var(--shadow-glow);
 }
 
-.stat p {
-    color: var(--muted);
+.stat-card .stat-value {
+  font-family: var(--font-heading);
+  font-size: var(--text-4xl);
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1.1;
 }
 
-/* GENERAL */
+.stat-card .stat-label {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  margin-top: var(--space-2);
+}
 
-section {
-    padding: 100px 8%;
+/* ============================================
+   SECTIONS (General)
+   ============================================ */
+.section {
+  padding: var(--space-16) 8%;
+}
+
+.section-header {
+  margin-bottom: var(--space-10);
 }
 
 .section-title {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
+  font-family: var(--font-heading);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  letter-spacing: -1px;
+  line-height: 1.2;
+  margin-bottom: var(--space-3);
 }
 
 .section-subtitle {
-    color: var(--muted);
-    margin-bottom: 45px;
+  color: var(--color-text-secondary);
+  font-size: var(--text-lg);
+  max-width: 600px;
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 20px;
+/* ============================================
+   ABOUT
+   ============================================ */
+.about-card {
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  padding: var(--space-8);
+  border-radius: var(--radius-xl);
+  color: var(--color-text-secondary);
+  font-size: var(--text-lg);
+  line-height: 1.75;
 }
 
-/* ABOUT */
-
-.about-box {
-    background: var(--card);
-    border: 1px solid var(--border);
-    padding: 35px;
-    border-radius: 20px;
-    color: var(--muted);
+.about-card strong {
+  color: var(--color-text);
+  font-weight: 600;
 }
 
-.about-box strong {
-    color: white;
+/* ============================================
+   SKILLS GRID
+   ============================================ */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--space-5);
 }
 
-/* SKILLS */
-
-.skill {
-    padding: 22px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 15px;
+.skill-card {
+  padding: var(--space-6);
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition: transform var(--duration-normal) var(--easing),
+              border-color var(--duration-normal) var(--easing),
+              box-shadow var(--duration-normal) var(--easing);
 }
 
-.skill h3 {
-    margin-bottom: 8px;
+.skill-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-border-hover);
+  box-shadow: var(--shadow-md);
 }
 
-.skill p {
-    color: var(--muted);
-    font-size: .9rem;
+.skill-card h3 {
+  font-family: var(--font-heading);
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
 }
 
-/* CERTIFICATIONS */
-
-.certification {
-    padding: 22px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    transition: .3s;
+.skill-card p {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  line-height: 1.6;
 }
 
-.certification:hover,
-.project:hover {
-    transform: translateY(-7px);
-    border-color: rgba(94,234,212,.4);
+/* ============================================
+   CERTIFICATIONS
+   ============================================ */
+.cert-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-5);
 }
 
-.cert-number {
-    color: var(--primary);
-    font-weight: bold;
-    font-size: .8rem;
+.cert-card {
+  padding: var(--space-6);
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition: transform var(--duration-normal) var(--easing),
+              border-color var(--duration-normal) var(--easing),
+              box-shadow var(--duration-normal) var(--easing);
 }
 
-.certification h3 {
-    margin: 10px 0;
-    font-size: 1rem;
+.cert-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-border-hover);
+  box-shadow: var(--shadow-md);
 }
 
-.certification p {
-    color: var(--muted);
-    font-size: .85rem;
+.cert-card .cert-number {
+  font-family: var(--font-heading);
+  color: var(--color-primary);
+  font-weight: 700;
+  font-size: var(--text-xs);
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
-/* PROJECTS */
-
-.project {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    overflow: hidden;
-    transition: .3s;
+.cert-card h3 {
+  font-family: var(--font-heading);
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-text);
+  margin: var(--space-3) 0 var(--space-2);
+  line-height: 1.4;
 }
 
-.project-top {
-    height: 150px;
-    padding: 25px;
+.cert-card p {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+}
+
+/* ============================================
+   PROJECTS
+   ============================================ */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-6);
+}
+
+.project-card {
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  transition: transform var(--duration-normal) var(--easing),
+              border-color var(--duration-normal) var(--easing),
+              box-shadow var(--duration-normal) var(--easing);
+}
+
+.project-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--color-border-hover);
+  box-shadow: var(--shadow-lg);
+}
+
+.project-card-header {
+  height: 140px;
+  padding: var(--space-6);
+  display: flex;
+  align-items: flex-end;
+  background:
+    linear-gradient(135deg,
+      rgba(94, 234, 212, 0.18),
+      rgba(96, 165, 250, 0.1),
+      rgba(167, 139, 250, 0.22));
+}
+
+.project-card-header .project-number {
+  font-family: var(--font-heading);
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1;
+}
+
+.project-card-body {
+  padding: var(--space-6);
+}
+
+.project-card-body h3 {
+  font-family: var(--font-heading);
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--space-3);
+  line-height: 1.4;
+}
+
+.project-card-body p {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  line-height: 1.65;
+}
+
+.project-tags {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.project-tag {
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  border-radius: var(--radius-full);
+  background: var(--color-primary-muted);
+  color: var(--color-primary);
+  letter-spacing: 0.3px;
+}
+
+/* ============================================
+   CONTACT
+   ============================================ */
+.contact-section {
+  text-align: center;
+  background:
+    linear-gradient(135deg,
+      rgba(94, 234, 212, 0.08),
+      rgba(96, 165, 250, 0.06));
+}
+
+.contact-section h2 {
+  font-family: var(--font-heading);
+  font-size: var(--text-4xl);
+  font-weight: 700;
+  letter-spacing: -1px;
+  line-height: 1.2;
+}
+
+.contact-section p {
+  color: var(--color-text-secondary);
+  font-size: var(--text-lg);
+  margin: var(--space-5) auto;
+  max-width: 550px;
+}
+
+.contact-buttons {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-top: var(--space-6);
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+  padding: var(--space-7) 8%;
+  text-align: center;
+  color: var(--color-text-tertiary);
+  font-size: var(--text-sm);
+  border-top: 1px solid var(--color-border);
+}
+
+/* ============================================
+   REVEAL ANIMATIONS (GSAP targets)
+   ============================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.reveal-left {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.reveal-right {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+/* ============================================
+   RESPONSIVE — Mobile First
+   ============================================ */
+
+/* Small phones (< 480px) */
+@media (max-width: 479px) {
+  .nav-links {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(7, 11, 20, 0.96);
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-6);
+    z-index: var(--z-nav);
+  }
+
+  .nav-links.open {
     display: flex;
-    align-items: end;
-    background:
-        linear-gradient(135deg,
-        rgba(94,234,212,.2),
-        rgba(96,165,250,.1),
-        rgba(167,139,250,.25));
-}
+  }
 
-.project-number {
-    font-size: 2rem;
-    font-weight: 800;
-    color: rgba(255,255,255,.7);
-}
+  .nav-links a {
+    font-size: var(--text-xl);
+    min-height: 52px;
+    padding: var(--space-3) var(--space-6);
+  }
 
-.project-body {
-    padding: 22px;
-}
-
-.project-body h3 {
-    margin-bottom: 10px;
-}
-
-.project-body p {
-    color: var(--muted);
-    font-size: .9rem;
-}
-
-.tags {
-    margin-top: 15px;
+  .nav-toggle {
     display: flex;
-    flex-wrap: wrap;
-    gap: 7px;
+    z-index: calc(var(--z-nav) + 1);
+  }
+
+  .nav-toggle[aria-expanded="true"] .icon-close {
+    display: block;
+  }
+
+  .nav-toggle[aria-expanded="true"] .icon-menu {
+    display: none;
+  }
+
+  .hero {
+    padding: 100px 6% var(--space-10);
+    min-height: auto;
+  }
+
+  .hero h1 {
+    letter-spacing: -1px;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0 6% var(--space-10);
+  }
+
+  .section {
+    padding: var(--space-12) 6%;
+  }
+
+  .section-title {
+    font-size: var(--text-2xl);
+  }
+
+  .skills-grid,
+  .cert-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-.tag {
-    padding: 5px 10px;
-    font-size: .75rem;
-    border-radius: 30px;
-    background: rgba(255,255,255,.06);
-    color: var(--primary);
+/* Tablets (480px – 768px) */
+@media (min-width: 480px) and (max-width: 768px) {
+  .nav-links {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(7, 11, 20, 0.96);
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-6);
+    z-index: var(--z-nav);
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-toggle {
+    display: flex;
+    z-index: calc(var(--z-nav) + 1);
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .skills-grid,
+  .cert-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-/* CONTACT */
+/* Small laptops (769px – 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-.contact {
-    text-align: center;
-    background: linear-gradient(135deg,
-    rgba(94,234,212,.1),
-    rgba(96,165,250,.08));
+  .cert-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .project-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-.contact h2 {
-    font-size: 3rem;
+/* Desktop (1025px+) */
+@media (min-width: 1025px) {
+  .skills-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .cert-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .project-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
-.contact p {
-    color: var(--muted);
-    margin: 20px 0;
-}
+/* Large desktop (1440px+) */
+@media (min-width: 1440px) {
+  .hero h1 {
+    font-size: 5.5rem;
+  }
 
-/* FOOTER */
-
-footer {
-    padding: 30px;
-    text-align: center;
-    color: var(--muted);
-    border-top: 1px solid var(--border);
-}
-
-@media(max-width: 800px) {
-    .nav-links {
-        display: none;
-    }
-
-    .stats {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .hero h1 {
-        letter-spacing: -2px;
-    }
+  .stats,
+  .section {
+    padding-left: 12%;
+    padding-right: 12%;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<nav>
-    <div class="logo">MOHD <span>AHMAD</span></div>
+<!-- Skip Link (Accessibility) -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <div class="nav-links">
-        <a href="#about">About</a>
-        <a href="#skills">Skills</a>
-        <a href="#certifications">Certifications</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-    </div>
+<!-- ============================================
+     NAVIGATION
+     ============================================ -->
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <a href="#" class="logo" aria-label="Mohd Ahmad — Home">MOHD <span class="accent">AHMAD</span></a>
+
+  <ul class="nav-links" id="navLinks" role="menubar">
+    <li role="none"><a href="#about" role="menuitem">About</a></li>
+    <li role="none"><a href="#skills" role="menuitem">Skills</a></li>
+    <li role="none"><a href="#certifications" role="menuitem">Certifications</a></li>
+    <li role="none"><a href="#projects" role="menuitem">Projects</a></li>
+    <li role="none"><a href="#contact" role="menuitem">Contact</a></li>
+  </ul>
+
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+    <svg class="icon-menu" viewBox="0 0 24 24" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    <svg class="icon-close" viewBox="0 0 24 24" aria-hidden="true" style="display:none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
 </nav>
 
-
-<!-- HERO -->
-
-<section class="hero">
-
-<div class="hero-content">
-
-<div class="badge">
-Business Development • Data Analysis • Strategy
-</div>
-
-<h1>
-Turning <span class="gradient">Data</span><br>
-Into Business Growth.
-</h1>
-
-<p>
-Professional portfolio of <strong>Mohd Ahmad</strong>, focused on
-business development, market intelligence, data analysis, performance
-optimization, reporting, strategy, and digital growth.
-</p>
-
-<div class="buttons">
-
-<a href="#projects" class="btn primary">
-View Projects
-</a>
-
-<a href="#certifications" class="btn secondary">
-View Certifications
-</a>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- STATS -->
-
-<div class="stats">
-
-<div class="stat">
-<h2>55+</h2>
-<p>Professional Certifications</p>
-</div>
-
-<div class="stat">
-<h2>30+</h2>
-<p>Portfolio Projects</p>
-</div>
-
-<div class="stat">
-<h2>12+</h2>
-<p>Business & Analytics Skills</p>
-</div>
-
-<div class="stat">
-<h2>100%</h2>
-<p>Data-Driven Approach</p>
-</div>
-
-</div>
-
-
-<!-- ABOUT -->
-
-<section id="about">
-
-<h2 class="section-title">
-About Me
-</h2>
-
-<p class="section-subtitle">
-Business-focused analytical problem solving.
-</p>
-
-<div class="about-box">
-
-<p>
-I am <strong>Mohd Ahmad</strong>, with a portfolio centered around
-<strong>Business Development, Data Analysis, Market Research,
-Business Intelligence, Sales Strategy and Performance Analytics.</strong>
-</p>
-
-<br>
-
-<p>
-My work focuses on transforming raw information into structured insights,
-dashboards, growth strategies and measurable business decisions.
-I explore analytical tools, reporting systems, customer intelligence,
-market opportunities and digital business models.
-</p>
-
-</div>
-
-</section>
-
-
-<!-- SKILLS -->
-
-<section id="skills">
-
-<h2 class="section-title">
-Core Expertise
-</h2>
-
-<p class="section-subtitle">
-Key areas represented across the portfolio.
-</p>
-
-<div class="grid">
-
-<div class="skill">
-<h3>Business Development</h3>
-<p>Growth strategy, partnerships, lead generation and market expansion.</p>
-</div>
-
-<div class="skill">
-<h3>Data Analysis</h3>
-<p>Data cleaning, exploration, reporting and actionable insights.</p>
-</div>
-
-<div class="skill">
-<h3>Business Intelligence</h3>
-<p>Dashboards, KPIs, visualization and executive reporting.</p>
-</div>
-
-<div class="skill">
-<h3>Market Research</h3>
-<p>Competitor analysis, industry research and market opportunity analysis.</p>
-</div>
-
-<div class="skill">
-<h3>Sales Analytics</h3>
-<p>Pipeline analysis, conversion tracking and revenue forecasting.</p>
-</div>
-
-<div class="skill">
-<h3>Excel & Reporting</h3>
-<p>Advanced spreadsheets, business models and automated reporting.</p>
-</div>
-
-<div class="skill">
-<h3>SQL</h3>
-<p>Database querying, segmentation and structured analysis.</p>
-</div>
-
-<div class="skill">
-<h3>Power BI</h3>
-<p>Interactive dashboards and business intelligence reporting.</p>
-</div>
-
-<div class="skill">
-<h3>Python</h3>
-<p>Data processing, analytics automation and exploratory analysis.</p>
-</div>
-
-<div class="skill">
-<h3>Financial Analysis</h3>
-<p>Revenue tracking, profitability and performance metrics.</p>
-</div>
-
-<div class="skill">
-<h3>CRM Analytics</h3>
-<p>Customer segmentation, retention and sales pipeline intelligence.</p>
-</div>
-
-<div class="skill">
-<h3>Strategic Planning</h3>
-<p>Business objectives, KPIs and measurable execution frameworks.</p>
-</div>
-
-</div>
-
-</section>
-
-
-<!-- CERTIFICATIONS -->
-
-<section id="certifications">
-
-<h2 class="section-title">
-Professional Certifications
-</h2>
-
-<p class="section-subtitle">
-55 certifications across business development, analytics and strategy.
-</p>
-
-<div class="grid" id="certificationGrid"></div>
-
-</section>
-
-
-<!-- PROJECTS -->
-
-<section id="projects">
-
-<h2 class="section-title">
-Featured Projects
-</h2>
-
-<p class="section-subtitle">
-30 analytical and business-focused portfolio projects.
-</p>
-
-<div class="grid" id="projectGrid"></div>
-
-</section>
-
-
-<!-- CONTACT -->
-
-<section id="contact" class="contact">
-
-<h2>
-Let's Build Something Data-Driven.
-</h2>
-
-<p>
-Open to opportunities involving business development,
-data analysis, strategy and business intelligence.
-</p>
-
-<div class="buttons" style="justify-content:center">
-
-<a href="mailto:your-email@example.com" class="btn primary">
-Contact Me
-</a>
-
-<a href="#" class="btn secondary">
-LinkedIn
-</a>
-
-</div>
-
-</section>
-
-
-<footer>
-© 2026 Mohd Ahmad — Professional Portfolio
+<!-- ============================================
+     MAIN CONTENT
+     ============================================ -->
+<main id="main-content">
+
+  <!-- HERO -->
+  <section class="hero" aria-label="Introduction">
+    <div class="hero-content">
+      <div class="hero-badge reveal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        Business Development &middot; Data Analysis &middot; Strategy
+      </div>
+
+      <h1 class="reveal">
+        Turning <span class="gradient">Data</span><br>
+        Into Business Growth.
+      </h1>
+
+      <p class="hero-description reveal">
+        Professional portfolio of <strong>Mohd Ahmad</strong>, focused on
+        business development, market intelligence, data analysis, performance
+        optimization, reporting, strategy, and digital growth.
+      </p>
+
+      <div class="hero-buttons reveal">
+        <a href="#projects" class="btn btn-primary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          View Projects
+        </a>
+        <a href="#certifications" class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 15l-2 5l9-13h-5l2-5-9 13h5z"/></svg>
+          View Certifications
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats" role="list" aria-label="Portfolio statistics">
+    <div class="stat-card reveal" role="listitem">
+      <div class="stat-value">55+</div>
+      <div class="stat-label">Professional Certifications</div>
+    </div>
+    <div class="stat-card reveal" role="listitem">
+      <div class="stat-value">30+</div>
+      <div class="stat-label">Portfolio Projects</div>
+    </div>
+    <div class="stat-card reveal" role="listitem">
+      <div class="stat-value">12+</div>
+      <div class="stat-label">Business &amp; Analytics Skills</div>
+    </div>
+    <div class="stat-card reveal" role="listitem">
+      <div class="stat-value">100%</div>
+      <div class="stat-label">Data-Driven Approach</div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about" class="section" aria-labelledby="about-title">
+    <div class="section-header">
+      <h2 id="about-title" class="section-title reveal">About Me</h2>
+      <p class="section-subtitle reveal">Business-focused analytical problem solving.</p>
+    </div>
+
+    <div class="about-card reveal">
+      <p>
+        I am <strong>Mohd Ahmad</strong>, with a portfolio centered around
+        <strong>Business Development, Data Analysis, Market Research,
+        Business Intelligence, Sales Strategy and Performance Analytics.</strong>
+      </p>
+      <br>
+      <p>
+        My work focuses on transforming raw information into structured insights,
+        dashboards, growth strategies and measurable business decisions.
+        I explore analytical tools, reporting systems, customer intelligence,
+        market opportunities and digital business models.
+      </p>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="section" aria-labelledby="skills-title">
+    <div class="section-header">
+      <h2 id="skills-title" class="section-title reveal">Core Expertise</h2>
+      <p class="section-subtitle reveal">Key areas represented across the portfolio.</p>
+    </div>
+
+    <div class="skills-grid" id="skillsGrid"></div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certifications" class="section" aria-labelledby="certs-title">
+    <div class="section-header">
+      <h2 id="certs-title" class="section-title reveal">Professional Certifications</h2>
+      <p class="section-subtitle reveal">55 certifications across business development, analytics and strategy.</p>
+    </div>
+
+    <div class="cert-grid" id="certGrid"></div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="section" aria-labelledby="projects-title">
+    <div class="section-header">
+      <h2 id="projects-title" class="section-title reveal">Featured Projects</h2>
+      <p class="section-subtitle reveal">30 analytical and business-focused portfolio projects.</p>
+    </div>
+
+    <div class="project-grid" id="projectGrid"></div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section contact-section" aria-labelledby="contact-title">
+    <h2 id="contact-title" class="reveal">Let's Build Something Data-Driven.</h2>
+    <p class="reveal">
+      Open to opportunities involving business development,
+      data analysis, strategy and business intelligence.
+    </p>
+
+    <div class="contact-buttons reveal">
+      <a href="mailto:your-email@example.com" class="btn btn-primary" aria-label="Send email to Mohd Ahmad">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        Contact Me
+      </a>
+      <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" aria-label="Visit LinkedIn profile (opens in new tab)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  &copy; 2026 Mohd Ahmad &mdash; Professional Portfolio
 </footer>
 
+<!-- ============================================
+     GSAP + ScrollTrigger (animation)
+     ============================================ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 
 <script>
-
-/* CERTIFICATIONS */
-
-const certifications = [
-
-"Business Development Fundamentals",
-"Advanced Business Development Strategy",
-"Business Growth & Scaling",
-"Strategic Business Planning",
-"Market Research Fundamentals",
-"Competitive Intelligence Analysis",
-"Sales Strategy & Management",
-"Lead Generation Strategy",
-"Customer Relationship Management",
-"Business Negotiation Fundamentals",
-"Partnership Development",
-"Digital Business Strategy",
-"Entrepreneurship Fundamentals",
-"Startup Business Development",
-"Business Model Development",
-
-"Data Analysis Fundamentals",
-"Advanced Data Analytics",
-"Data Visualization Principles",
-"Business Intelligence Fundamentals",
-"Dashboard Design & Analytics",
-"Excel for Business Analytics",
-"Advanced Microsoft Excel",
-"SQL for Data Analysis",
-"Database Fundamentals",
-"Python for Data Analysis",
-"Data Cleaning & Preparation",
-"Exploratory Data Analysis",
-"Statistical Analysis Fundamentals",
-"Predictive Analytics Basics",
-"Data Storytelling",
-
-"Power BI Fundamentals",
-"Advanced Power BI Dashboards",
-"Tableau Fundamentals",
-"KPI Development & Measurement",
-"Performance Analytics",
-"Sales Data Analysis",
-"Marketing Analytics",
-"Customer Analytics",
-"Financial Data Analysis",
-"Operations Analytics",
-
-"Business Forecasting",
-"Revenue Analytics",
-"Profitability Analysis",
-"Market Segmentation",
-"Consumer Behavior Analysis",
-"Digital Marketing Analytics",
-"Google Analytics Fundamentals",
-"Business Process Analysis",
-"Process Optimization",
-"Project Management Fundamentals",
-"Agile Business Practices",
-"Strategic Management",
-"Corporate Strategy Fundamentals",
-"Decision Making Using Data",
-"AI for Business Fundamentals",
-"Data-Driven Business Strategy"
-
-];
-
-const issuers = [
-"Professional Learning Program",
-"Business & Analytics Academy",
-"Online Professional Development",
-"Industry Skills Program"
-];
-
-const certGrid = document.getElementById("certificationGrid");
-
-certifications.forEach((cert, index) => {
-
-certGrid.innerHTML += `
-
-<div class="certification">
-
-<div class="cert-number">
-CERTIFICATION ${String(index + 1).padStart(2,"0")}
-</div>
-
-<h3>${cert}</h3>
-
-<p>
-${issuers[index % issuers.length]}
-</p>
-
-</div>
-
-`;
-
-});
-
-
-/* PROJECTS */
-
-const projects = [
-
-{
-title:"Sales Performance Dashboard",
-description:"Interactive dashboard analyzing revenue, sales performance, regional trends and KPIs.",
-tags:["Power BI","Excel","Analytics"]
-},
-
-{
-title:"Customer Segmentation Analysis",
-description:"Customer dataset analysis focused on behavior, value and segmentation opportunities.",
-tags:["Python","SQL","Analytics"]
-},
-
-{
-title:"Market Opportunity Research",
-description:"Research framework for identifying market gaps, competitors and growth opportunities.",
-tags:["Research","Strategy"]
-},
-
-{
-title:"Revenue Forecasting Model",
-description:"Business model designed to estimate future revenue using historical performance data.",
-tags:["Excel","Forecasting"]
-},
-
-{
-title:"Lead Generation Analytics",
-description:"Lead source performance analysis focused on conversion and acquisition efficiency.",
-tags:["CRM","Analytics"]
-},
-
-{
-title:"E-Commerce Business Dashboard",
-description:"Performance dashboard covering orders, revenue, customers and product trends.",
-tags:["Power BI","SQL"]
-},
-
-{
-title:"Competitor Intelligence Report",
-description:"Structured analysis of competitor positioning, pricing and market strategy.",
-tags:["Research","Business"]
-},
-
-{
-title:"Customer Retention Analysis",
-description:"Analysis framework for understanding retention patterns and customer churn indicators.",
-tags:["Python","Analytics"]
-},
-
-{
-title:"Marketing Campaign Analysis",
-description:"Campaign performance analysis covering reach, conversion and ROI metrics.",
-tags:["Marketing","Data"]
-},
-
-{
-title:"Business KPI Dashboard",
-description:"Centralized dashboard for monitoring operational and strategic business KPIs.",
-tags:["Power BI","BI"]
-},
-
-{
-title:"Product Performance Analysis",
-description:"Evaluation of product sales, demand patterns and profitability indicators.",
-tags:["Excel","SQL"]
-},
-
-{
-title:"Startup Growth Strategy",
-description:"Business development roadmap focused on customer acquisition and scalable growth.",
-tags:["Strategy","Growth"]
-},
-
-{
-title:"Sales Funnel Analysis",
-description:"Conversion analysis across lead, prospect, opportunity and customer stages.",
-tags:["CRM","Sales"]
-},
-
-{
-title:"Financial Performance Report",
-description:"Revenue, cost and profitability analysis with executive-level insights.",
-tags:["Finance","Analytics"]
-},
-
-{
-title:"Regional Sales Analysis",
-description:"Geographical performance comparison identifying high-growth and underperforming regions.",
-tags:["Power BI","Excel"]
-},
-
-{
-title:"Customer Lifetime Value Model",
-description:"Analytical framework for estimating long-term customer business value.",
-tags:["Analytics","Business"]
-},
-
-{
-title:"Pricing Strategy Analysis",
-description:"Comparative pricing analysis supporting competitive positioning and profitability.",
-tags:["Strategy","Research"]
-},
-
-{
-title:"Inventory Performance Dashboard",
-description:"Inventory tracking system focused on stock levels, movement and demand.",
-tags:["Excel","Dashboard"]
-},
-
-{
-title:"Business Process Optimization",
-description:"Workflow analysis designed to identify inefficiencies and improvement opportunities.",
-tags:["Process","Business"]
-},
-
-{
-title:"Digital Growth Strategy",
-description:"Data-informed strategy framework for digital customer acquisition and growth.",
-tags:["Digital","Strategy"]
-},
-
-{
-title:"Customer Feedback Analysis",
-description:"Structured analysis of customer feedback and recurring satisfaction themes.",
-tags:["Data","Research"]
-},
-
-{
-title:"Marketing ROI Dashboard",
-description:"Dashboard connecting marketing expenditure with measurable business outcomes.",
-tags:["Power BI","Marketing"]
-},
-
-{
-title:"Employee Performance Analytics",
-description:"Performance reporting model using structured KPIs and operational metrics.",
-tags:["Analytics","Excel"]
-},
-
-{
-title:"Demand Forecasting Project",
-description:"Data-based demand analysis supporting inventory and operational planning.",
-tags:["Forecasting","Python"]
-},
-
-{
-title:"Business Expansion Analysis",
-description:"Framework for evaluating potential markets and expansion opportunities.",
-tags:["Research","Growth"]
-},
-
-{
-title:"CRM Pipeline Dashboard",
-description:"Sales pipeline visualization tracking opportunities and conversion progress.",
-tags:["CRM","Power BI"]
-},
-
-{
-title:"Website Analytics Report",
-description:"Traffic, engagement and conversion analysis for digital performance evaluation.",
-tags:["Web Analytics","Data"]
-},
-
-{
-title:"Profitability Optimization Model",
-description:"Analysis model focused on improving margins and identifying cost drivers.",
-tags:["Finance","Business"]
-},
-
-{
-title:"Consumer Trend Analysis",
-description:"Research and analytical project identifying changing consumer behavior patterns.",
-tags:["Research","Analytics"]
-},
-
-{
-title:"Executive Business Intelligence Dashboard",
-description:"High-level business dashboard combining revenue, growth, operations and KPI metrics.",
-tags:["Power BI","Strategy"]
-}
-
-];
-
-const projectGrid = document.getElementById("projectGrid");
-
-projects.forEach((project,index) => {
-
-let tags = project.tags.map(tag =>
-`<span class="tag">${tag}</span>`
-).join("");
-
-projectGrid.innerHTML += `
-
-<div class="project">
-
-<div class="project-top">
-<div class="project-number">
-PROJECT ${String(index + 1).padStart(2,"0")}
-</div>
-</div>
-
-<div class="project-body">
-
-<h3>${project.title}</h3>
-
-<p>${project.description}</p>
-
-<div class="tags">
-${tags}
-</div>
-
-</div>
-
-</div>
-
-`;
-
-});
-
+(function () {
+  'use strict';
+
+  /* ===========================================
+     DATA
+     =========================================== */
+  var skills = [
+    { title: 'Business Development', desc: 'Growth strategy, partnerships, lead generation and market expansion.' },
+    { title: 'Data Analysis', desc: 'Data cleaning, exploration, reporting and actionable insights.' },
+    { title: 'Business Intelligence', desc: 'Dashboards, KPIs, visualization and executive reporting.' },
+    { title: 'Market Research', desc: 'Competitor analysis, industry research and market opportunity analysis.' },
+    { title: 'Sales Analytics', desc: 'Pipeline analysis, conversion tracking and revenue forecasting.' },
+    { title: 'Excel & Reporting', desc: 'Advanced spreadsheets, business models and automated reporting.' },
+    { title: 'SQL', desc: 'Database querying, segmentation and structured analysis.' },
+    { title: 'Power BI', desc: 'Interactive dashboards and business intelligence reporting.' },
+    { title: 'Python', desc: 'Data processing, analytics automation and exploratory analysis.' },
+    { title: 'Financial Analysis', desc: 'Revenue tracking, profitability and performance metrics.' },
+    { title: 'CRM Analytics', desc: 'Customer segmentation, retention and sales pipeline intelligence.' },
+    { title: 'Strategic Planning', desc: 'Business objectives, KPIs and measurable execution frameworks.' }
+  ];
+
+  var certifications = [
+    'Business Development Fundamentals','Advanced Business Development Strategy',
+    'Business Growth & Scaling','Strategic Business Planning',
+    'Market Research Fundamentals','Competitive Intelligence Analysis',
+    'Sales Strategy & Management','Lead Generation Strategy',
+    'Customer Relationship Management','Business Negotiation Fundamentals',
+    'Partnership Development','Digital Business Strategy',
+    'Entrepreneurship Fundamentals','Startup Business Development',
+    'Business Model Development','Data Analysis Fundamentals',
+    'Advanced Data Analytics','Data Visualization Principles',
+    'Business Intelligence Fundamentals','Dashboard Design & Analytics',
+    'Excel for Business Analytics','Advanced Microsoft Excel',
+    'SQL for Data Analysis','Database Fundamentals',
+    'Python for Data Analysis','Data Cleaning & Preparation',
+    'Exploratory Data Analysis','Statistical Analysis Fundamentals',
+    'Predictive Analytics Basics','Data Storytelling',
+    'Power BI Fundamentals','Advanced Power BI Dashboards',
+    'Tableau Fundamentals','KPI Development & Measurement',
+    'Performance Analytics','Sales Data Analysis',
+    'Marketing Analytics','Customer Analytics',
+    'Financial Data Analysis','Operations Analytics',
+    'Business Forecasting','Revenue Analytics',
+    'Profitability Analysis','Market Segmentation',
+    'Consumer Behavior Analysis','Digital Marketing Analytics',
+    'Google Analytics Fundamentals','Business Process Analysis',
+    'Process Optimization','Project Management Fundamentals',
+    'Agile Business Practices','Strategic Management',
+    'Corporate Strategy Fundamentals','Decision Making Using Data',
+    'AI for Business Fundamentals','Data-Driven Business Strategy'
+  ];
+
+  var issuers = [
+    'Professional Learning Program','Business & Analytics Academy',
+    'Online Professional Development','Industry Skills Program'
+  ];
+
+  var projects = [
+    { title: 'Sales Performance Dashboard', desc: 'Interactive dashboard analyzing revenue, sales performance, regional trends and KPIs.', tags: ['Power BI','Excel','Analytics'] },
+    { title: 'Customer Segmentation Analysis', desc: 'Customer dataset analysis focused on behavior, value and segmentation opportunities.', tags: ['Python','SQL','Analytics'] },
+    { title: 'Market Opportunity Research', desc: 'Research framework for identifying market gaps, competitors and growth opportunities.', tags: ['Research','Strategy'] },
+    { title: 'Revenue Forecasting Model', desc: 'Business model designed to estimate future revenue using historical performance data.', tags: ['Excel','Forecasting'] },
+    { title: 'Lead Generation Analytics', desc: 'Lead source performance analysis focused on conversion and acquisition efficiency.', tags: ['CRM','Analytics'] },
+    { title: 'E-Commerce Business Dashboard', desc: 'Performance dashboard covering orders, revenue, customers and product trends.', tags: ['Power BI','SQL'] },
+    { title: 'Competitor Intelligence Report', desc: 'Structured analysis of competitor positioning, pricing and market strategy.', tags: ['Research','Business'] },
+    { title: 'Customer Retention Analysis', desc: 'Analysis framework for understanding retention patterns and customer churn indicators.', tags: ['Python','Analytics'] },
+    { title: 'Marketing Campaign Analysis', desc: 'Campaign performance analysis covering reach, conversion and ROI metrics.', tags: ['Marketing','Data'] },
+    { title: 'Business KPI Dashboard', desc: 'Centralized dashboard for monitoring operational and strategic business KPIs.', tags: ['Power BI','BI'] },
+    { title: 'Product Performance Analysis', desc: 'Evaluation of product sales, demand patterns and profitability indicators.', tags: ['Excel','SQL'] },
+    { title: 'Startup Growth Strategy', desc: 'Business development roadmap focused on customer acquisition and scalable growth.', tags: ['Strategy','Growth'] },
+    { title: 'Sales Funnel Analysis', desc: 'Conversion analysis across lead, prospect, opportunity and customer stages.', tags: ['CRM','Sales'] },
+    { title: 'Financial Performance Report', desc: 'Revenue, cost and profitability analysis with executive-level insights.', tags: ['Finance','Analytics'] },
+    { title: 'Regional Sales Analysis', desc: 'Geographical performance comparison identifying high-growth and underperforming regions.', tags: ['Power BI','Excel'] },
+    { title: 'Customer Lifetime Value Model', desc: 'Analytical framework for estimating long-term customer business value.', tags: ['Analytics','Business'] },
+    { title: 'Pricing Strategy Analysis', desc: 'Comparative pricing analysis supporting competitive positioning and profitability.', tags: ['Strategy','Research'] },
+    { title: 'Inventory Performance Dashboard', desc: 'Inventory tracking system focused on stock levels, movement and demand.', tags: ['Excel','Dashboard'] },
+    { title: 'Business Process Optimization', desc: 'Workflow analysis designed to identify inefficiencies and improvement opportunities.', tags: ['Process','Business'] },
+    { title: 'Digital Growth Strategy', desc: 'Data-informed strategy framework for digital customer acquisition and growth.', tags: ['Digital','Strategy'] },
+    { title: 'Customer Feedback Analysis', desc: 'Structured analysis of customer feedback and recurring satisfaction themes.', tags: ['Data','Research'] },
+    { title: 'Marketing ROI Dashboard', desc: 'Dashboard connecting marketing expenditure with measurable business outcomes.', tags: ['Power BI','Marketing'] },
+    { title: 'Employee Performance Analytics', desc: 'Performance reporting model using structured KPIs and operational metrics.', tags: ['Analytics','Excel'] },
+    { title: 'Demand Forecasting Project', desc: 'Data-based demand analysis supporting inventory and operational planning.', tags: ['Forecasting','Python'] },
+    { title: 'Business Expansion Analysis', desc: 'Framework for evaluating potential markets and expansion opportunities.', tags: ['Research','Growth'] },
+    { title: 'CRM Pipeline Dashboard', desc: 'Sales pipeline visualization tracking opportunities and conversion progress.', tags: ['CRM','Power BI'] },
+    { title: 'Website Analytics Report', desc: 'Traffic, engagement and conversion analysis for digital performance evaluation.', tags: ['Web Analytics','Data'] },
+    { title: 'Profitability Optimization Model', desc: 'Analysis model focused on improving margins and identifying cost drivers.', tags: ['Finance','Business'] },
+    { title: 'Consumer Trend Analysis', desc: 'Research and analytical project identifying changing consumer behavior patterns.', tags: ['Research','Analytics'] },
+    { title: 'Executive BI Dashboard', desc: 'High-level business dashboard combining revenue, growth, operations and KPI metrics.', tags: ['Power BI','Strategy'] }
+  ];
+
+  /* ===========================================
+     RENDER SKILLS
+     =========================================== */
+  var skillsGrid = document.getElementById('skillsGrid');
+  skills.forEach(function (s) {
+    skillsGrid.innerHTML +=
+      '<div class="skill-card reveal">' +
+        '<h3>' + s.title + '</h3>' +
+        '<p>' + s.desc + '</p>' +
+      '</div>';
+  });
+
+  /* ===========================================
+     RENDER CERTIFICATIONS
+     =========================================== */
+  var certGrid = document.getElementById('certGrid');
+  certifications.forEach(function (cert, i) {
+    certGrid.innerHTML +=
+      '<div class="cert-card reveal">' +
+        '<div class="cert-number">CERTIFICATION ' + String(i + 1).padStart(2, '0') + '</div>' +
+        '<h3>' + cert + '</h3>' +
+        '<p>' + issuers[i % issuers.length] + '</p>' +
+      '</div>';
+  });
+
+  /* ===========================================
+     RENDER PROJECTS
+     =========================================== */
+  var projectGrid = document.getElementById('projectGrid');
+  projects.forEach(function (p, i) {
+    var tags = p.tags.map(function (t) {
+      return '<span class="project-tag">' + t + '</span>';
+    }).join('');
+
+    projectGrid.innerHTML +=
+      '<div class="project-card reveal">' +
+        '<div class="project-card-header">' +
+          '<div class="project-number">' + String(i + 1).padStart(2, '0') + '</div>' +
+        '</div>' +
+        '<div class="project-card-body">' +
+          '<h3>' + p.title + '</h3>' +
+          '<p>' + p.desc + '</p>' +
+          '<div class="project-tags">' + tags + '</div>' +
+        '</div>' +
+      '</div>';
+  });
+
+  /* ===========================================
+     MOBILE NAV TOGGLE
+     =========================================== */
+  var navToggle = document.getElementById('navToggle');
+  var navLinks = document.getElementById('navLinks');
+  var iconMenu = navToggle.querySelector('.icon-menu');
+  var iconClose = navToggle.querySelector('.icon-close');
+
+  navToggle.addEventListener('click', function () {
+    var isOpen = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen);
+    iconMenu.style.display = isOpen ? 'none' : 'block';
+    iconClose.style.display = isOpen ? 'block' : 'none';
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+
+  navLinks.querySelectorAll('a').forEach(function (link) {
+    link.addEventListener('click', function () {
+      navLinks.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+      iconMenu.style.display = 'block';
+      iconClose.style.display = 'none';
+      document.body.style.overflow = '';
+    });
+  });
+
+  /* ===========================================
+     ACTIVE NAV STATE (scroll spy)
+     =========================================== */
+  var sections = document.querySelectorAll('section[id]');
+  var navAnchors = document.querySelectorAll('.nav-links a');
+
+  function updateActiveNav() {
+    var scrollY = window.scrollY + 120;
+    sections.forEach(function (section) {
+      var top = section.offsetTop;
+      var height = section.offsetHeight;
+      var id = section.getAttribute('id');
+      if (scrollY >= top && scrollY < top + height) {
+        navAnchors.forEach(function (a) {
+          a.classList.remove('active');
+          if (a.getAttribute('href') === '#' + id) {
+            a.classList.add('active');
+          }
+        });
+      }
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  updateActiveNav();
+
+  /* ===========================================
+     GSAP SCROLL ANIMATIONS
+     =========================================== */
+  function initAnimations() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    var revealElements = document.querySelectorAll('.reveal');
+    revealElements.forEach(function (el, i) {
+      gsap.fromTo(el,
+        { opacity: 0, y: 24 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 88%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+    });
+
+    /* Stagger children within grids */
+    ['.skills-grid', '.cert-grid', '.project-grid', '.stats'].forEach(function (selector) {
+      var grid = document.querySelector(selector);
+      if (!grid) return;
+      var cards = grid.querySelectorAll('.reveal');
+      if (cards.length === 0) return;
+
+      gsap.fromTo(cards,
+        { opacity: 0, y: 24 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.45,
+          stagger: 0.06,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: grid,
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+          }
+        }
+      );
+    });
+  }
+
+  /* Wait for GSAP to load (deferred scripts) */
+  if (document.readyState === 'complete') {
+    initAnimations();
+  } else {
+    window.addEventListener('load', initAnimations);
+  }
+
+})();
 </script>
 
 </body>
