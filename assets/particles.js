@@ -1,6 +1,7 @@
 /**
  * Particle Network Animation
  * Floating particles that react to mouse AND scroll
+ * Optimized: reduced particle count, frame-skipping, capped connections
  */
 (function () {
   const canvas = document.createElement('canvas');
@@ -12,9 +13,10 @@
   const ctx = canvas.getContext('2d');
   let w, h;
   let particles = [];
-  const PARTICLE_COUNT = 40;
-  const CONNECTION_DIST = 120;
+  const PARTICLE_COUNT = 24;
+  const CONNECTION_DIST = 100;
   const MOUSE_RADIUS = 200;
+  let frameCount = 0;
 
   let mouse = { x: -1000, y: -1000 };
   let scroll = { y: 0, speed: 0, lastY: 0 };
@@ -112,21 +114,25 @@
     }
   }
 
+  // Cap max connections per particle to avoid O(n²) stalls
+  const MAX_CONNECTIONS = 120;
+
   function drawConnections() {
     const scrollSpeedAbs = Math.abs(scroll.speed);
-    // Lines glow brighter when scrolling
     const lineBaseOpacity = 0.1 + Math.min(scrollSpeedAbs * 0.001, 0.15);
+    const effectiveDist = CONNECTION_DIST + scrollSpeedAbs * 0.05;
+    let totalConnections = 0;
 
     for (let i = 0; i < particles.length; i++) {
+      if (totalConnections >= MAX_CONNECTIONS) break;
       for (let j = i + 1; j < particles.length; j++) {
         const dx = particles[i].x - particles[j].x;
         const dy = particles[i].y - particles[j].y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
+        const distSq = dx * dx + dy * dy;
+        const effDistSq = effectiveDist * effectiveDist;
 
-        // Connection distance expands slightly on scroll
-        const effectiveDist = CONNECTION_DIST + scrollSpeedAbs * 0.05;
-
-        if (dist < effectiveDist) {
+        if (distSq < effDistSq) {
+          const dist = Math.sqrt(distSq);
           const opacity = (1 - dist / effectiveDist) * lineBaseOpacity;
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
@@ -134,12 +140,22 @@
           ctx.strokeStyle = `rgba(0, 220, 255, ${opacity})`;
           ctx.lineWidth = 0.5;
           ctx.stroke();
+          totalConnections++;
+          if (totalConnections >= MAX_CONNECTIONS) break;
         }
       }
     }
   }
 
   function animate() {
+    frameCount++;
+    // Skip every other frame when not scrolling to reduce CPU load
+    const active = Math.abs(scroll.speed) > 0.5 || Math.abs(mouse.x) > 0;
+    if (!active && frameCount % 2 !== 0) {
+      requestAnimationFrame(animate);
+      return;
+    }
+
     ctx.clearRect(0, 0, w, h);
 
     for (const p of particles) {

@@ -14,7 +14,8 @@
   let boxes = [];
   let scrollSpeed = 0;
   let lastScrollY = 0;
-  const BOX_COUNT = 18;
+  const BOX_COUNT = 10;
+  let frameCount = 0;
 
   function resize() {
     w = canvas.width = window.innerWidth;
@@ -159,6 +160,15 @@
   }
 
   function animate() {
+    frameCount++;
+    // Skip every other frame when idle to reduce CPU usage
+    const active = Math.abs(scrollSpeed) > 0.5;
+    if (!active && frameCount % 2 !== 0) {
+      scrollSpeed *= 0.9;
+      requestAnimationFrame(animate);
+      return;
+    }
+
     ctx.clearRect(0, 0, w, h);
 
     for (const box of boxes) {
