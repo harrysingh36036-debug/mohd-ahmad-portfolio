@@ -3,10 +3,17 @@
  * Types out the hero headline character by character with a blinking cursor
  */
 (function () {
+  // Blanking the headline and retyping it costs ~2s before the most
+  // important text on the page is readable. Skip it on lite devices.
+  if (document.documentElement.dataset.perf === 'lite') return;
+
   function initTypewriter() {
     const heroH1 = document.querySelector('.hero h1');
     if (!heroH1) {
-      setTimeout(initTypewriter, 200);
+      if (initTypewriter.tries === undefined) initTypewriter.tries = 0;
+      if (initTypewriter.tries++ < 60) {
+        setTimeout(initTypewriter, 200);
+      }
       return;
     }
 
@@ -80,7 +87,7 @@
   const style = document.createElement('style');
   style.textContent = `
     .tw-cursor {
-      font-weight: 300;
+      font-weight: 400;
       animation: tw-blink 0.7s step-end infinite;
       margin-left: 2px;
       color: var(--color-primary, #5eead4);

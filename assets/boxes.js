@@ -3,6 +3,9 @@
  * Geometric boxes that rotate, drift, and react to scroll
  */
 (function () {
+  // Skip entirely on low-power / data-saver / reduced-motion devices.
+  if (document.documentElement.dataset.perf === 'lite') return;
+
   const canvas = document.createElement('canvas');
   canvas.id = 'boxes-canvas';
   canvas.style.cssText =
@@ -16,6 +19,7 @@
   let lastScrollY = 0;
   const BOX_COUNT = 10;
   let frameCount = 0;
+  let running = true;
 
   function resize() {
     w = canvas.width = window.innerWidth;
@@ -159,12 +163,17 @@
     }
   }
 
+  // Idle frame divisor. The cubes rotate continuously by design, so we
+  // throttle to ~20fps rather than stopping -- freezing them would remove
+  // the effect entirely. Interaction still runs at full frame rate.
+  const IDLE_DIVISOR = 3;
+
   function animate() {
+    if (!running) return;
     frameCount++;
-    // Skip every other frame when idle to reduce CPU usage
+
     const active = Math.abs(scrollSpeed) > 0.5;
-    if (!active && frameCount % 2 !== 0) {
-      scrollSpeed *= 0.9;
+    if (!active && frameCount % IDLE_DIVISOR !== 0) {
       requestAnimationFrame(animate);
       return;
     }
@@ -182,14 +191,35 @@
     requestAnimationFrame(animate);
   }
 
+  function wake() {
+    if (!running) {
+      running = true;
+      frameCount = 0;
+      requestAnimationFrame(animate);
+    }
+  }
+
   window.addEventListener('scroll', () => {
     const currentY = window.scrollY;
     scrollSpeed = currentY - lastScrollY;
     lastScrollY = currentY;
+    wake();
   }, { passive: true });
 
-  window.addEventListener('resize', resize);
+  window.addEventListener('resize', () => {
+    resize();
+    wake();
+  }, { passive: true });
+
+  // Don't animate while the tab is in the background.
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      running = false;
+    } else {
+      wake();
+    }
+  });
 
   init();
-  animate();
+  requestAnimationFrame(animate);
 })();

@@ -4,6 +4,9 @@
  * Optimized: reduced particle count, frame-skipping, capped connections
  */
 (function () {
+  // Skip entirely on low-power / data-saver / reduced-motion devices.
+  if (document.documentElement.dataset.perf === 'lite') return;
+
   const canvas = document.createElement('canvas');
   canvas.id = 'particle-canvas';
   canvas.style.cssText =
@@ -19,7 +22,10 @@
   let frameCount = 0;
 
   let mouse = { x: -1000, y: -1000 };
+  let mouseSeen = false;
+  let lastMouseMove = 0;
   let scroll = { y: 0, speed: 0, lastY: 0 };
+  let running = true;
 
   function resize() {
     w = canvas.width = window.innerWidth;
@@ -148,9 +154,15 @@
   }
 
   function animate() {
+    if (!running) return;
     frameCount++;
-    // Skip every other frame when not scrolling to reduce CPU load
-    const active = Math.abs(scroll.speed) > 0.5 || Math.abs(mouse.x) > 0;
+
+    // Skip frames while nothing is happening. `mouseSeen` gates the mouse
+    // term -- previously this tested Math.abs(mouse.x) > 0, which is true
+    // from the very first frame because mouse.x starts at -1000, so the
+    // skip never engaged and the loop ran at full rate forever.
+    const mouseActive = mouseSeen && performance.now() - lastMouseMove < 2000;
+    const active = Math.abs(scroll.speed) > 0.5 || mouseActive;
     if (!active && frameCount % 2 !== 0) {
       requestAnimationFrame(animate);
       return;
@@ -168,26 +180,56 @@
     // Decay scroll speed over time
     scroll.speed *= 0.92;
 
+    // Once everything has settled and the pointer is idle, stop entirely
+    // instead of burning frames on an invisible drift.
+    if (!active && Math.abs(scroll.speed) <= 0.01) {
+      ctx.clearRect(0, 0, w, h);
+      running = false;
+      return;
+    }
+
     requestAnimationFrame(animate);
+  }
+
+  function wake() {
+    if (!running) {
+      running = true;
+      frameCount = 0;
+      requestAnimationFrame(animate);
+    }
   }
 
   // Track mouse
   window.addEventListener('mousemove', (e) => {
     mouse.x = e.clientX;
     mouse.y = e.clientY;
-  });
+    mouseSeen = true;
+    lastMouseMove = performance.now();
+    wake();
+  }, { passive: true });
 
   // Track scroll
   window.addEventListener('scroll', () => {
     const currentY = window.scrollY;
     scroll.speed = currentY - scroll.lastY;
     scroll.lastY = currentY;
+    wake();
   }, { passive: true });
 
   window.addEventListener('resize', () => {
     resize();
+    wake();
+  }, { passive: true });
+
+  // Don't animate while the tab is in the background.
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      running = false;
+    } else {
+      wake();
+    }
   });
 
   init();
-  animate();
+  requestAnimationFrame(animate);
 })();

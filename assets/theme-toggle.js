@@ -114,7 +114,11 @@
     // Wait for nav to exist
     const nav = document.querySelector('.nav');
     if (!nav) {
-      setTimeout(createToggle, 200);
+      // Cap the polling so a React failure does not spin this forever.
+      if (createToggle.tries === undefined) createToggle.tries = 0;
+      if (createToggle.tries++ < 60) {
+        setTimeout(createToggle, 200);
+      }
       return;
     }
 
@@ -166,6 +170,11 @@
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved === 'light') {
       applyTheme(true);
+    } else {
+      // Without this the button is created empty on a normal dark-mode
+      // visit - updateToggleIcon only ran inside applyTheme, which was
+      // skipped unless a 'light' preference was saved.
+      updateToggleIcon(false);
     }
   }
 
@@ -173,17 +182,29 @@
   const style = document.createElement('style');
   style.textContent = `
     html { transition: background-color 0.4s ease; }
-    body, .nav, .vignette, .motion-grid, .scan-line {
-      transition: background 0.4s ease, background-color 0.4s ease, border-color 0.4s ease, opacity 0.4s ease;
-    }
-    * {
-      transition-property: color, background-color, border-color, box-shadow, opacity;
-      transition-duration: 0.4s;
-      transition-timing-function: ease;
+    /* Scoped deliberately. A universal \`*\` selector here put a 0.4s
+       transition on every node in the document, which forces a style
+       recalculation storm while scrolling and was a major source of
+       jank on phones. Only the surfaces that actually change colour need
+       it. */
+    body, .nav, .vignette, .motion-grid, .scan-line,
+    .hero-badge, .stat-card, .skill-card, .cert-card, .project-card,
+    .about-card, .btn, .project-tag, .nav-links-desktop a,
+    .section-title, .section-subtitle, .hero-description, .footer,
+    .logo, .skip-link, .theme-toggle, .contact-section {
+      transition: background 0.4s ease, background-color 0.4s ease,
+                  border-color 0.4s ease, color 0.4s ease,
+                  box-shadow 0.4s ease;
     }
     /* Exclude things that should not transition */
-    .hero h1, .tw-cursor, .particle-canvas, #boxes-canvas {
+    .hero h1, .tw-cursor, .particle-canvas, #boxes-canvas,
+    .reveal, .reveal > * {
       transition: none;
+    }
+    .reveal, .reveal > * {
+      transition-property: opacity, transform;
+      transition-duration: 0.7s;
+      transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
     }
   `;
   document.head.appendChild(style);

@@ -148,3 +148,47 @@
   position: relative;
   z-index: 2;
 }
+
+/* ===== LITE MODE =====
+   Set on <html> by the inline script in index.html before first paint.
+   Drops every continuously-repainting decorative layer. Three 50px-blurred
+   orbs plus an animated grid and a full-screen SVG-noise tile repaint the
+   whole viewport on every tick, which is what made scrolling stutter and
+   the phone run hot. */
+html[data-perf='lite'] .orb,
+html[data-perf='lite'] .scan-line,
+html[data-perf='lite'] .noise-overlay {
+  display: none;
+}
+
+html[data-perf='lite'] .motion-grid {
+  animation: none;
+}
+
+/* Blur is the single most expensive thing here. On a viewport too narrow to
+   show the orbs behind content anyway, drop to a cheap static tint. */
+@media (max-width: 768px) {
+  .orb {
+    filter: blur(40px);
+    opacity: 0.2;
+  }
+
+  .motion-grid {
+    background-size: 56px 56px;
+  }
+}
+
+/* Users who ask the OS to reduce motion get none of it, regardless of
+   hardware detection. */
+@media (prefers-reduced-motion: reduce) {
+  .orb,
+  .motion-grid,
+  .scan-line {
+    animation: none;
+  }
+
+  .scan-line {
+    display: none;
+  }
+}
+

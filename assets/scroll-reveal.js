@@ -3,6 +3,11 @@
  * Sections, cards, and elements animate in when scrolled into view
  */
 (function () {
+  // On lite devices we never hide anything in the first place. Injecting
+  // the reveal CSS and immediately force-showing still costs a style recalc
+  // on every node, so bail out before any of it runs.
+  if (document.documentElement.dataset.perf === 'lite') return;
+
   // Add reveal CSS
   const style = document.createElement('style');
   style.textContent = `
@@ -57,12 +62,53 @@
   `;
   document.head.appendChild(style);
 
+  // Motion sets an inline `opacity: 0` on the nodes it animates, and an
+  // inline style beats any stylesheet rule. Adding `.visible` alone would be
+  // silently ignored on those nodes, so clear the competing inline values and
+  // let the CSS transition take over normally.
+  function reveal(el) {
+    el.style.removeProperty('opacity');
+    el.style.removeProperty('transform');
+    el.classList.add('visible');
+  }
+
+  // Hard failsafe. Anything tagged .reveal gets force-shown once this fires,
+  // so a missed observer callback can never leave a section invisible.
+  // Transitions are suppressed here: by the time we are forcing content in,
+  // a 0.7s fade on a saturated main thread is what produced the "blank
+  // until scrolled" symptom in the first place.
+  let failsafe = null;
+  function scheduleFailsafe() {
+    if (failsafe) return;
+    failsafe = setTimeout(function () {
+      revealAll();
+    }, 2500);
+  }
+
+  function revealAll() {
+    clearTimeout(failsafe);
+    failsafe = null;
+    document.querySelectorAll('.reveal').forEach(function (el) {
+      el.style.setProperty('transition', 'none', 'important');
+      el.style.setProperty('opacity', '1', 'important');
+      el.style.setProperty('transform', 'none', 'important');
+      el.classList.add('visible');
+    });
+  }
+
   function init() {
     const root = document.getElementById('root');
     if (!root || !root.querySelector('.hero')) {
-      setTimeout(init, 200);
+      // React has not mounted yet. Cap the polling so a mount failure or a
+      // JS error does not spin this forever.
+      if (init.tries === undefined) init.tries = 0;
+      if (init.tries++ < 60) {
+        setTimeout(init, 200);
+      }
       return;
     }
+
+    scheduleFailsafe();
 
     // Tag elements with reveal classes
     // --- Sections ---
@@ -111,8 +157,11 @@
     });
 
     // --- Hero content (fade up on load) ---
+    // Guarded so the re-run on window load does not flash the hero back
+    // to opacity 0.
     const heroContent = document.querySelector('.hero-content');
-    if (heroContent) {
+    if (heroContent && !heroContent.dataset.revealed) {
+      heroContent.dataset.revealed = '1';
       heroContent.style.opacity = '0';
       heroContent.style.transform = 'translateY(30px)';
       heroContent.style.transition = 'opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
@@ -123,19 +172,22 @@
     }
 
     // --- Set up Intersection Observer ---
+    // threshold 0 (rather than 0.1) fires as soon as any part is visible.
+    // A tall single-column grid can sit under 10% of its own height on a
+    // phone, which left whole sections stuck hidden until a nudge.
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
+            reveal(entry.target);
             // Unobserve after reveal (animate once)
             observer.unobserve(entry.target);
           }
         });
       },
       {
-        threshold: 0.1,
-        rootMargin: '0px 0px -60px 0px',
+        threshold: 0,
+        rootMargin: '0px 0px 10% 0px',
       }
     );
 
@@ -144,6 +196,10 @@
       observer.observe(el);
     });
   }
+
+  // React can still be committing when we first tag. Re-run once the page
+  // has fully loaded to catch any nodes that arrived late.
+  window.addEventListener('load', init);
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
